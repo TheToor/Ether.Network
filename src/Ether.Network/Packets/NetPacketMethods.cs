@@ -53,5 +53,22 @@ namespace Ether.Network.Packets
                 }
             }
         };
+
+        internal static Dictionary<Type, CustomType> CustomTypes = new Dictionary<Type, CustomType>();
+
+        internal delegate void CustomTypeWrite(BinaryWriter writer, object customObject);
+        internal delegate object CustomTypeRead(BinaryReader reader);
+
+        internal sealed class CustomType
+        {
+            public readonly CustomTypeWrite Writer;
+            public readonly CustomTypeRead Reader;
+
+            public CustomType(CustomTypeWrite writeDelegate, CustomTypeRead readDelegate)
+            {
+                this.Writer = writeDelegate;
+                this.Reader = readDelegate;
+            }
+        }
     }
 }

@@ -9,7 +9,7 @@ namespace Ether.Network.Tests.Context
     public abstract class NetServerContext : IAsyncLifetime
     {
         public static readonly string WelcomeText = "Welcome to the Test!";
-        private INetServer _server;
+        private TestServer _server;
         private Task _serverTask;
 
         public async Task InitializeAsync()
@@ -43,5 +43,7 @@ namespace Ether.Network.Tests.Context
 
             return true;
         }
+
+        public TestServer GetServer() => _server;
     }
 }

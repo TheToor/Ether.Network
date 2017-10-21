@@ -109,6 +109,33 @@ namespace Ether.Network
             }
         }
 
+        public bool RegisterCustomType<T>() where T : struct, INetSerializable
+        {
+            return RegisterCustomTypeInternal(() => new T());
+        }
+
+        private bool RegisterCustomTypeInternal<T>(Func<T> constructor) where T : INetSerializable
+        {
+            var type = typeof(T);
+            if (NetPacketMethods.CustomTypes.ContainsKey(type))
+                return false;
+
+            var customTypeClass = new NetPacketMethods.CustomType(
+                (writer, data) =>
+                {
+                    ((T)data).Serialize(writer);
+                },
+                (reader) =>
+                {
+                    var customType = constructor();
+                    customType.Deserialize(reader);
+                    return customType;
+                }
+            );
+            NetPacketMethods.CustomTypes.Add(type, customTypeClass);
+            return true;
+        }
+
         /// <summary>
         /// Triggered when the <see cref="NetClient"/> receives a packet.
         /// </summary>

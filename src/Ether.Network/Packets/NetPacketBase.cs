@@ -98,6 +98,8 @@ namespace Ether.Network.Packets
 
             if (NetPacketMethods.WriteMethods.ContainsKey(type))
                 NetPacketMethods.WriteMethods[type](this.MemoryWriter, value);
+            else if (NetPacketMethods.CustomTypes.ContainsKey(type))
+                NetPacketMethods.CustomTypes[type].Writer(this.MemoryWriter, value);
         }
 
         /// <summary>
@@ -114,6 +116,8 @@ namespace Ether.Network.Packets
 
             if (NetPacketMethods.ReadMethods.ContainsKey(type))
                 return (T)NetPacketMethods.ReadMethods[type](this.MemoryReader);
+            else if (NetPacketMethods.CustomTypes.ContainsKey(type))
+                return (T)NetPacketMethods.CustomTypes[type].Reader(this.MemoryReader);
 
             return default(T);
         }

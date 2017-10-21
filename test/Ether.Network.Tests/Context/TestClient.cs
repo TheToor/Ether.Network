@@ -2,7 +2,7 @@
 
 namespace Ether.Network.Tests.Context
 {
-    internal class TestClient : NetConnection
+    public class TestClient : NetConnection
     {
         public void SendHello()
         {

@@ -2,7 +2,7 @@
 
 namespace Ether.Network.Tests.Context
 {
-    internal class TestServer : NetServer<TestClient>
+    public class TestServer : NetServer<TestClient>
     {
         public TestServer()
         {
