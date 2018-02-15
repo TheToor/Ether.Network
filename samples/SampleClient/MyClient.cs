@@ -1,6 +1,6 @@
-﻿using Ether.Network;
-using System;
+﻿using Ether.Network.Client;
 using Ether.Network.Packets;
+using System;
 using System.Net.Sockets;
 
 namespace SampleClient
@@ -22,11 +22,10 @@ namespace SampleClient
         /// Handles incoming messages.
         /// </summary>
         /// <param name="packet"></param>
-        protected override void HandleMessage(NetPacketBase packet)
+        public override void HandleMessage(INetPacketStream packet)
         {
             var response = packet.Read<string>();
-
-            Console.WriteLine("-> Server response: {0}", response);
+            Console.WriteLine($"-> Server response: '{response}'");
         }
 
         /// <summary>
@@ -45,6 +44,10 @@ namespace SampleClient
             Console.WriteLine("Disconnected");
         }
 
+        /// <summary>
+        /// Triggered when an error occurs.
+        /// </summary>
+        /// <param name="socketError"></param>
         protected override void OnSocketError(SocketError socketError)
         {
             Console.WriteLine("Socket Error: {0}", socketError.ToString());
